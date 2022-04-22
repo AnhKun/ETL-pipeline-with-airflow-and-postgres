@@ -23,12 +23,20 @@ services:
         ports:
             - '5050:80'
 
+    pyspark:
+        image: jupyter/pyspark-notebook
+        ports: 
+            - "8888:8888"
+        volumes:
+            - ./data_wrangling:/home/jovyan/work jupyter/pyspark-notebook
+
     webserver:
         image: puckel/docker-airflow:1.10.9
         restart: always
         depends_on:
             - postgres
             - pgadmin
+            - pyspark
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
@@ -40,6 +48,7 @@ services:
             - ./dags:/usr/local/airflow/dags
             - ./data:/usr/local/airflow/data_airflow
             - ./sql_files:/usr/local/airflow/sql_files
+            - ./data_wrangling:/usr/local/airflow/data_wrangling
             # - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
