@@ -5,7 +5,7 @@ services:
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airlineDB
+            - POSTGRES_DB=airflow
         ports:
             - "5432:5432"
         logging:
@@ -36,7 +36,6 @@ services:
         depends_on:
             - postgres
             - pgadmin
-            - pyspark
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
