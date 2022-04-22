@@ -1,5 +1,5 @@
 # ETL processing with airflow and postgreSQL
-The purpose of this project is to give a demo of orchestration tool in building an ETL pipeline, where the datastore is PostgreSQL database.
+The purpose of this project is to give a demo of an orchestration tool for building an ETL pipeline, where the datastore is a PostgreSQL database.
 ## 1. Dataset
 This dataset is about the airline delay and cancellation in US in 2020.
 
