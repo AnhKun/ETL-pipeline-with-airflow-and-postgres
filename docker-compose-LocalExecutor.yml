@@ -5,17 +5,30 @@ services:
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow
+            - POSTGRES_DB=airlineDB
+        ports:
+            - "5432:5432"
         logging:
             options:
                 max-size: 10m
                 max-file: "3"
+        volumes:
+            - ./data:/var/lib/postgresql/data_postgres/
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment: 
+            - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+            - PGADMIN_DEFAULT_PASSWORD=admin1234
+        ports:
+            - '5050:80'
 
     webserver:
         image: puckel/docker-airflow:1.10.9
         restart: always
         depends_on:
             - postgres
+            - pgadmin
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
@@ -25,6 +38,8 @@ services:
                 max-file: "3"
         volumes:
             - ./dags:/usr/local/airflow/dags
+            - ./data:/usr/local/airflow/data_airflow
+            - ./sql_files:/usr/local/airflow/sql_files
             # - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
