@@ -1,7 +1,8 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator 
+from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
-import create_dim
+from tasks import create_dim, create_fact
 #from ..data_wrangling import main
 
 default_args = {
@@ -17,11 +18,25 @@ with DAG(
     description='A simple ETL pipeline',
     schedule_interval='@daily'
 ) as dag:
+    t1 = BashOperator(
+        task_id='check_files_exists',
+        bash_command= """
+            [[ -f "/usr/local/airflow/data_airflow/jantojun2020.csv" ]] && echo "This file exists!"
+            [[ -f "/usr/local/airflow/data_airflow/ColumnDescriptions.txt" ]] && echo "This file exists!"
+        """
+    )
 
-    create_dim_ds = PythonOperator(
+    t2 = PythonOperator(
         task_id='create_dim_ds',
         python_callable=create_dim.main
     )
 
+    t3 = PythonOperator(
+        task_id='create_fact_ds',
+        python_callable=create_fact.main
+    )
 
-    create_dim_ds
+
+
+
+    t1 >> [t2, t3]
