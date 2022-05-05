@@ -28,3 +28,5 @@ __pycache__
 # dataset
 *.csv
 *.txt
+
+config.py

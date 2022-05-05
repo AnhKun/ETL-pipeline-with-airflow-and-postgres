@@ -23,13 +23,6 @@ services:
         ports:
             - '5050:80'
 
-    pyspark:
-        image: jupyter/pyspark-notebook
-        ports: 
-            - "8888:8888"
-        volumes:
-            - ./data_wrangling:/home/jovyan/work jupyter/pyspark-notebook
-
     webserver:
         image: puckel/docker-airflow:1.10.9
         restart: always
