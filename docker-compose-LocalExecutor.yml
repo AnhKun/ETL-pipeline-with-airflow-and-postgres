@@ -39,8 +39,6 @@ services:
         volumes:
             - ./dags:/usr/local/airflow/dags
             - ./data:/usr/local/airflow/data_airflow
-            - ./sql_files:/usr/local/airflow/sql_files
-            - ./data_wrangling:/usr/local/airflow/data_wrangling
             # - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
